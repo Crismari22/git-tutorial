@@ -1,0 +1,174 @@
+ONLINE BACKUP
+ - in case losing local repository you have an online back up
+ 
+ Google Drive allow us to do 3 main things
+ 1.online BACKUP
+ the feature bellow is known as 2-Way Sync
+ 2.sync updates
+  -computer => google Drive
+ 3.Sync updates
+  -google Drive => computer
+
+	GitHub
+	-specifically designed for git repositories
+	-it has a lot of features to manage our code and our version history thats why we use specialize service like GitHub instead of using generic online back up solution like g drive
+	-several services that do the same thing as GitHub
+		-Bitbucket
+		-GitLab
+	-GitHub is the most popular one but the other two services are very similar the buttons are just in different places
+	-if you learn GitHub you're be good with the other two services
+
+GIT REPOSITORY - folder that is being tracked by git
+	
+CREATING ACCOUNT IN GITHUB
+1. Go to github.com
+2. Click sign up buttons
+3. sign for username,email and password
+4.click create account
+5.click complete set up
+6. verify email address
+
+CREATING AN ONLINE BACKUP
+1.create a new repository on github
+2.click profile icon
+3.choose "Your repositories"
+4.click new
+5. give repository name*
+-choosing PUBLIC means anyone in the internet can see your repository
+6.click create repository
+
+LOCAL REPOSITORY
+LOCAL -anything that you talk about something on your computer 
+
+REMOTE REPOSITORY
+REMOTE - anything we talk about something online
+
+UPLOAD LOCAL REPOSITORY INTO REMOTE REPOSITORY
+1.go to command line (poweshell)
+2.make sure to change the folder or directory that the command are running inside of the folder that contains the code
+3.cd ~\path of the folder\foldersname
+4.Adding link between remote and local
+5.git remote add origin https://github.com/Crismari22/git-tutorial.git
+	-origin is just a nickname to the remote repository (convention nickname)
+	-the second to the origin is the url of the remote repository in github
+  - git remote add <remotenickname><url repository>
+6.check if the local already link to remote using GIT REMOTE or to view more detail GIT REMOTE -V
+ -v stand for VERBOSE- give more details
+7.GIT REMOTE REMOVE ORIGIN - removing remote repository
+
+Uploading to GitHub = push
+Download from GitHub =pull
+
+PUSHING CODE TO GITHUB
+1.Configure git with our GitHub username
+ - GIT CONFIG --GLOBAL CREDENTIAL.USERNAME "GITHUBUSERNAME"
+2.Push code to GitHub
+ -GIT PUSH ORIGIN MASTER
+ -github has a BRANCH and that branch has a name, mine is called "master"
+ -when pushing code to github we're not just pushing code we're also pushing commit history and we don't just push our entire commit history we just push 1 branch of commits at a time
+ -GIT LOG --ALL --GRAPH
+  check the branch of commit history
+3.GitHub will going to ask you to log in in github
+4.finallly your code have been push to github remote repository
+
+TROUBLESHOOTING IF GIT PUSH DIDN'T WORK
+1.Ensure you're using HTTPS url
+ e.g https://github.com/Crismari22/git-tutorial.git
+2.Ensure you ran git Config
+ e.g GIT CONFIG --GLOBAL CREDENTIAL.USERNAME "Crismari22"
+3.Put your username in the remote url
+	e.g git remote add origin https://Crismari22@github.com/Crismari22/git-tutorial.git
+4.Use a personal access token
+	1.Go to GitHub
+	2.Click profile icon
+	3.choose seetings
+	4. click developer settings
+	5.click personal access tokens
+	6. generate a new token
+	7.confirm github password
+	8.give a name for your token on note
+	9.make sure check the repo checkbox
+	10.click generate token
+	WARNING: copy the token and save it to your personal safe place because you can't copy it anymore once you go out at the page
+	11.instead of giving the password you can copy paste the token to give you personal access
+5.Set up SSH Keys
+	-this key is simply just file that we create on our computer
+	- whenever we run git push we gonna pass this key to github
+	- and this key is going to give us access to push to our remote repository instead of giving a password
+		1.go to web browser
+		2.search github set up ssh key
+		3.click docs.github.com
+		4.click checked for existing SSH Keys
+		5. run this command in powershell
+			-ls ~/.ssh
+		  -the point is to make sure we don't have any of this files
+			 -id_rsa.pub
+			 -id_ecdsa.pub
+			 -id_ed25519.pub
+		 -if we don't have this files that means we don't have an ssh Keys
+		6.for no ssh key click the link generate new ssh key
+		7.copy paste the given command to powershell and make sure to change the email to the email that you signed up with github
+		8.its gonna ask you where you want to save the key. keep the default by pressing entire
+		9.pick a password for your key
+		10. re enter your password
+		11.add ssh key to ssh agent
+			1. go to start menu 
+			2. go to services
+			3. look for open ssh authentication agent
+			4.double click it
+			5.set startup type: automatic
+			6.click apply
+			7.click start
+			8.when agent is running press ok
+		12.	copy the command line to powershell from add your ssh private key to the ssh agent
+		13. change ~ to $HOME
+		14.click the link add the ssh key to your github account
+		15 got to copy the SSH key to your clipboard
+		16. copy the first command line to powershell add notepad and change ~ to $HOME
+		17.Press enter(directing to notepad)
+		18.take the public key and copy it to github
+			1.go to github 
+			2.settings
+			3.ssh and gpg keys
+			4.add new ssh key
+			5.give title
+			6. paste the content
+			7.click add ssh key
+
+	USING OUR SSH Keys
+	1. go to powershell make sure you are in directory that contains your code
+	2.run git remote -v
+	3.to use ssh key switch hhtps url for the git url
+	4.remove https url
+	5. go to github.com
+	6. click download code buttons
+	7.select ssh 
+	8.copy it 
+	9. and link remote repository using the ssh
+	e.g git remote add nickname sshurl
+ now every time we git push its going to send our ssh key to github instead of entering our password
+ -to test that out create new commit and push it again
+
+ UNLIKE GOOGLE DRIVE GITHUB DESIGN SPECIFICALLY FOR GIT REPOSITORIES, IT GIVES YOU A LOT OF VISIBILITY INTO YOUR CODE AND HOW ITS CHANGING
+		root : the outer folder of our repository
+		origin/master : called the remote tracking branch it is the same on our local master branch just because we just push it into github
+SYNC CHANGES FROM COMPUTER => GITHUB
+1. go to root of your github repository
+2. open command line
+3.type git log --all --graph
+ -notice that we have another branch name called origin/master
+ -origin/master -called a remote tracking branch
+ -notice that if you have added new commit its actually ahead  of the master branch in github so it make sense because we just created new commit that hasn't been upgraded in github
+ -update it using git push origin master
+ -after that origin/master is now update as our local master branch
+-when origin/master is in sync to  master branch so there is no update to push to github
+
+SHORTCUT FOR GIT PUSH
+-GIT PUSH ORIGIN MASTER --SET-UP-STREAM
+-YOU CAN JUST RUN GIT PUSH COMMAND and git will automatically memorize origin master because of the --set-up command above
+
+NOTE: GIT PUSH ONLY PUSHES COMMITS IT DOESN'T PUSH CHANGES
+-after git add , commit  then push
+-f =force push 
+git push origin master -f = means your forcing to push the commits even if overide a commit in github branch
+-but if we use -f the previous origin/master will replace 
